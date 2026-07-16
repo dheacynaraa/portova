@@ -7,6 +7,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminProjectController;
+use App\Http\Controllers\CommentController;
 
 // === Public ===
 
@@ -49,6 +50,10 @@ Route::middleware('auth')->group(function() {
     // Like
     Route::post('/like/{project}', [LikeController::class, 'store'])->name('like.store');
     Route::delete('/like/{project}', [LikeController::class, 'destroy'])->name('like.destroy');
+
+    // Comment
+    Route::post('/project/{project}/comment', [CommentController::class, 'store'])->name('comment.store');
+    Route::delete('/comment/{comment}', [CommentController::class, 'destroy'])->name('comment.destroy');
 });
 
 // === Admin ===

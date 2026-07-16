@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
+use Dom\Comment;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,5 +24,9 @@ class User extends Authenticatable {
 
     public function likes () {
         return $this->hasMany(Like::class, 'user_id');
+    }
+
+    public function comments() {
+        return $this->hasMany(Comment::class, 'project_id');
     }
 }

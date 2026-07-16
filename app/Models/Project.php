@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Dom\Comment;
 use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
@@ -17,5 +18,9 @@ class Project extends Model
 
     public function like() {
         return $this->hasMany(Like::class, 'project_id');
+    }
+
+    public function comment() {
+        return $this->hasMany(Comment::class);
     }
 }

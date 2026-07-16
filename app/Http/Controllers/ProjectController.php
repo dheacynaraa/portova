@@ -62,6 +62,15 @@ class ProjectController extends Controller {
 
     // Menampilkan detail project
     public function show(Project $project) {
+        $project->load('user', 'comment.user');
+
+        if ($project->status !== 'disetujui'
+            && $project->user_id !== Auth::id()
+            && Auth::user()?->role !== 'admin') {
+                
+                abort(403);
+            }
+
         return view('project.show', compact('project'));
     }
 
