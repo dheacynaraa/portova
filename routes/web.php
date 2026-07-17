@@ -7,7 +7,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminProjectController;
-use App\Http\Controllers\CommentController;
+use App\Http\Controllers\SaveController;
 
 // === Public ===
 
@@ -51,9 +51,9 @@ Route::middleware('auth')->group(function() {
     Route::post('/like/{project}', [LikeController::class, 'store'])->name('like.store');
     Route::delete('/like/{project}', [LikeController::class, 'destroy'])->name('like.destroy');
 
-    // Comment
-    Route::post('/project/{project}/comment', [CommentController::class, 'store'])->name('comment.store');
-    Route::delete('/comment/{comment}', [CommentController::class, 'destroy'])->name('comment.destroy');
+    // Save
+    Route::post('/project/{project}/save', [SaveController::class, 'store'])->name('save.store');
+    Route::delete('/save/{save}', [SaveController::class, 'destroy'])->name('save.destroy');
 });
 
 // === Admin ===

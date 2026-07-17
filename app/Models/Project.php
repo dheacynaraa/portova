@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Dom\Comment;
 use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
@@ -16,11 +15,11 @@ class Project extends Model
         return $this->belongsTo(User::class, 'user_id');
     }    
 
-    public function like() {
+    public function likes() {
         return $this->hasMany(Like::class, 'project_id');
     }
 
-    public function comment() {
-        return $this->hasMany(Comment::class);
+    public function saves() {
+        return $this->hasMany(Save::class, 'project_id');
     }
 }

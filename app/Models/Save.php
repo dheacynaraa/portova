@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Comment extends Model
+class Save extends Model
 {
-    protected $table = 'comments';
-    protected $fillable = ['users', 'projects', 'comment'];
+    protected $table = 'saves';
+    protected $fillable = ['user_id', 'project_id'];
 
     public function user() {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class,'user_id');
     }
 
     public function project() {
