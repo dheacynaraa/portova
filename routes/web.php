@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\LikeController;
@@ -9,7 +8,13 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminProjectController;
 use App\Http\Controllers\SaveController;
 
-// === Public ===
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+
+
+// =======================
+// Public
+// =======================
 
 // Landing Page
 Route::view('/', 'landing')->name('landing');
@@ -20,23 +25,44 @@ Route::get('/explore', [ProjectController::class, 'index'])->name('project.index
 // Detail Project
 Route::get('/project/{project}', [ProjectController::class, 'show'])->name('project.show');
 
-// === Authentication ===
 
-Route::middleware('guest')->group(function() {
-    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'login']);
+// =======================
+// Authentication
+// =======================
 
-    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-    Route::post('/register', [AuthController::class], 'register');
+Route::middleware('guest')->group(function () {
+
+    // Login
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [LoginController::class, 'login']);
+
+    // Register
+    Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+    Route::post('/register', [RegisterController::class, 'register']);
+
 });
 
-Route::post('/logout', [AuthController::class, 'logout'])
+// Logout
+Route::post('/logout', [LoginController::class, 'logout'])
     ->middleware('auth')
     ->name('logout');
 
-// === Mahasiswa ===
 
-Route::middleware('auth')->group(function() {
+// Dashboard
+Route::middleware('auth')->group(function () {
+
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+});
+
+
+// =======================
+// Mahasiswa
+// =======================
+
+Route::middleware('auth')->group(function () {
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
@@ -54,18 +80,31 @@ Route::middleware('auth')->group(function() {
     // Save
     Route::post('/project/{project}/save', [SaveController::class, 'store'])->name('save.store');
     Route::delete('/save/{save}', [SaveController::class, 'destroy'])->name('save.destroy');
+
 });
 
-// === Admin ===
 
-Route::middleware('auth', 'admin')->prefix('admin')->group(function() {
+// =======================
+// Admin
+// =======================
+
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
     // Dashboard
-    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
-    
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])
+        ->name('admin.dashboard');
+
     // Review Project
-    Route::get('/project', [AdminProjectController::class, 'index'])->name('admin.project.index');
-    Route::get('/project/{project}', [AdminProjectController::class, 'show'])->name('admin.project.show');
-    Route::put('/project/{project}/approve', [AdminProjectController::class, 'approve'])->name('admin.project.approve');
-    Route::put('/project/{project}/reject', [AdminProjectController::class, 'reject'])->name('admin.project.reject');
+    Route::get('/project', [AdminProjectController::class, 'index'])
+        ->name('admin.project.index');
+
+    Route::get('/project/{project}', [AdminProjectController::class, 'show'])
+        ->name('admin.project.show');
+
+    Route::put('/project/{project}/approve', [AdminProjectController::class, 'approve'])
+        ->name('admin.project.approve');
+
+    Route::put('/project/{project}/reject', [AdminProjectController::class, 'reject'])
+        ->name('admin.project.reject');
+
 });

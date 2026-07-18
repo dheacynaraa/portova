@@ -12,10 +12,10 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable {
     protected $table = 'users';
-    protected $fillable = ['name', 'email', 'role', 'image_profile', 
+    protected $fillable = ['name', 'email', 'password', 'role', 'image_profile', 
                             'university', 'link_instagram',
                             'link_github', 'bio'];
-    protected $hidden = ['password'];
+    protected $hidden = ['password', 'remember_token'];
 
     public function projects () {
         return $this->hasMany(Project::class, 'user_id');
