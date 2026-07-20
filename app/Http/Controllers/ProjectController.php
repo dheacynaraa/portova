@@ -16,7 +16,7 @@ class ProjectController extends Controller {
         $projects = Project::where('status', 'disetujui')
             ->when($search, function ($query) use ($search) {
                 $query->where('title', 'like', "%{search}%")
-                      ->orWhere('tech_stack', 'like', "%{search}%");
+                      ->orWhere('tech_stacks', 'like', "%{search}%");
             })
             ->latest()
             ->get();
