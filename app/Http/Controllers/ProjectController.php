@@ -50,7 +50,7 @@ class ProjectController extends Controller {
             'user_id' => Auth::id(),
             'title' => $request->title,
             'description' => $request->description,
-            'tech_stack' => $request->tech_stack,
+            'tech_stack' => $request->tech_stacks,
             'link_repo' => $request->link_repo,
             'link_demo' => $request->link_demo,            
             'project_image' => $filename,

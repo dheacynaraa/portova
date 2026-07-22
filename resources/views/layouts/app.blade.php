@@ -12,16 +12,23 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-[#0D1515] min-h-screen"
-      style="font-family:'Space Grotesk',sans-serif;">
-
+<body
+style="
+margin:0;
+padding:0;
+background:#0B1112;
+font-family:'Space Grotesk',sans-serif;
+">
+      
+    
     @include('partials.navbar')
 
-    <main>
-        @yield('content')
+    <main style="background:#0B1112;">
+    @yield('content')
     </main>
 
     @include('partials.footer')
 
+    
 </body>
 </html>

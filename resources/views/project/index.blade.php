@@ -2,22 +2,17 @@
 
 @section('content')
 
-<section class="relative bg-[#080D0E] min-h-screen py-6 overflow-hidden">
+<section style="background:#0B1112;min-height:100vh;position:relative;overflow:hidden;padding:24px 0;">
         {{-- Glow --}}
         <div class="absolute left-1/2 -translate-x-1/2 top-24
                     w-[700px] h-[350px]
                     rounded-full
-                    bg-[#00F0FF]/5
+                    bg-[#00F0FF]/[0.03]
                     blur-[180px]">
         </div>
 
         {{-- Grid --}}
-        <div class="absolute inset-0 opacity-[0.03]"
-            style="background-image:linear-gradient(rgba(255,255,255,.12) 1px,
-                    transparent 1px),
-                    linear-gradient(90deg,rgba(255,255,255,.12) 1px,transparent 1px);
-                    background-size:40px 40px;">
-        </div>
+        
 
         <div class="relative z-10 max-w-[1280px] mx-auto px-4">
 
@@ -28,7 +23,13 @@
                 Eksplorasi Proyek Mahasiswa
             </h1>
 
-            <p class="mt-4 text-[#B9CACB] text-[15px] leading-8">
+            <p
+style="
+margin-top:16px;
+color:#B9CACB;
+font-size:15px;
+line-height:28px;
+">
                 Arsip digital inovasi teknologi, desain, dan riset dari talenta terbaik ekosistem Portova.
             </p>
 
@@ -39,7 +40,13 @@
         {{-- Search --}}
         <div class="flex justify-center mt-10">
 
-            <div class="flex w-[820px] h-[52px]">
+            <div
+            style="
+            width:760px;
+            height:56px;
+            display:flex;
+            margin:auto;
+            ">
 
                 {{-- Search Box --}}
                 <div class="flex-1 flex items-center bg-[#192122] border border-[#3B494B] rounded-l-md px-4">
@@ -49,14 +56,34 @@
                     <input
                         type="text"
                         placeholder="Cari proyek atau kreator..."
-                        class="w-full bg-transparent outline-none text-[#DBFCFF] placeholder:text-[#849495]">
+                        style="
+                        width:100%;
+                        background:transparent;
+                        border:none;
+                        outline:none;
+                        color:#DBFCFF;
+                        font-size:15px;
+                        input::placeholder{
+                        color:#849495;
+                        opacity:1;}
+                        ">
 
+                        
+
+                        
                 </div>
 
                 {{-- Button --}}
                 <button
-                    class="w-[90px] bg-[#00F0FF] text-[#0D1515] font-bold rounded-r-md hover:bg-[#7DF4FF] transition">
-
+                    style="
+width:82px;
+background:#00F0FF;
+border:none;
+color:#071112;
+font-weight:700;
+cursor:pointer;
+transition:.3s;
+">
                     CARI
 
                 </button>
@@ -66,49 +93,134 @@
         </div>
 
         {{-- Project Grid --}}
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-14">
-
+        <div
+        style="
+        display:grid;
+        grid-template-columns:repeat(3,372px);
+        justify-content:space-between;
+        column-gap:32px;
+        row-gap:36px;
+        margin-top:60px;
+        ">
         @foreach($projects as $project)
 
         @php
-        $badgeColor = match($project->tech_stacks){
-            'AI' => 'bg-cyan-900 text-cyan-300',
-            'UI/UX' => 'bg-yellow-900 text-yellow-300',
-            'Robotics' => 'bg-red-900 text-red-300',
-            'Web' => 'bg-green-900 text-green-300',
-            'Mobile' => 'bg-purple-900 text-purple-300',
-            default => 'bg-[#00363A] text-[#00F0FF]'
+
+        $tech = strtoupper($project->tech_stacks ?? '');
+
+        $badge = match($tech){
+
+            'AI' => [
+                'bg' => '#00363A',
+                'text' => '#00F0FF'
+            ],
+
+            'WEB' => [
+                'bg' => '#0B3A22',
+                'text' => '#4ADE80'
+            ],
+
+            'MOBILE' => [
+                'bg' => '#2D1A54',
+                'text' => '#C084FC'
+            ],
+
+            'UI/UX' => [
+                'bg' => '#4A3A00',
+                'text' => '#FACC15'
+            ],
+
+            'ROBOTICS' => [
+                'bg' => '#4A1616',
+                'text' => '#FB7185'
+            ],
+
+            default => [
+                'bg' => '#192122',
+                'text' => '#DBFCFF'
+            ]
+
         };
+
         @endphp
 
-        <div class="bg-[#121A1B] border border-[#273233] rounded-lg overflow-hidden transition duration-300 hover:border-[#00F0FF] hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(0,240,255,.15)]">
+        <div
+            class="project-card"
+            style="
+            background:#121A1B;
+            border:1px solid #273233;
+            border-radius:16px;
+            overflow:hidden;
+            transition:.35s;
+            cursor:pointer;
+            max-width:372px;
+            width:100%;
+            margin:auto;
+            ">
+
 
             <div class="relative">
 
                 <!-- image -->
-                <img src="{{ $project->project_image }}"
-                    class="w-full h-[230px] object-cover">
+                <img
 
+                src="{{ $project->project_image }}"
+
+                style="
+                width:100%;
+                height:230px;
+                object-fit:cover;
+                display:block;
+                ">
+
+        
                 <!-- badge -->
-                <span class="absolute top-3 left-3 px-3 py-1 rounded text-[11px] font-bold uppercase {{ $badgeColor }}">
-                    TECH • {{ $project->tech_stacks }}
+                <span style="position:absolute;top:16px;
+                            left:16px;
+                            padding:7px 14px;
+                            border-radius:999px;
+                            background:{{ $badge['bg'] }};
+                            color:{{ $badge['text'] }};
+                            font-size:11px;
+                            font-weight:700;
+                            letter-spacing:.8px;
+                            text-transform:uppercase;
+                            ">
+                    TECH • {{ $tech }}
+
                 </span>
 
             </div>
 
             <!-- isi card -->
-            <div class="px-6 py-5">
+            <div style="padding:24px;">
 
                 <!-- Ttle -->
-                <h3 style="color:#DBFCFF;font-size:28px;font-weight:700;line-height:1.2;">
+                <h3
+
+                style="
+                color:#DBFCFF;
+                font-size:26px;
+                margin-top:2px;
+                font-weight:700;
+                line-height:30px;
+                margin-top:2px;
+                ">
+
                     {{ $project->title }}
-                </style=>
+                
                 </h3>
 
                 <!-- desc -->
-                <p class="mt-4 text-[#B9CACB] text-[15px] leading-7">
+                <p
+                    style="
+                    margin-top:16px;
+                    color:#B9CACB;
+                    font-size:15px;
+                    line-height:24px;
+                    ">
 
-                    {{ $project->desc }}
+                    {{ Str::limit($project->desc,110) }}
 
                 </p>
                 <div class="mt-5 border-b border-[#3B494B]"></div>
@@ -118,15 +230,35 @@
 
                     <div class="flex items-center gap-2">
 
-                        <div class="w-3 h-3 rounded-full bg-[#7DF4FF]"></div>
+                        <div
 
-                        <span class="text-[#DBFCFF] text-sm">
+                        style="
+                        width:10px;
+                        height:10px;
+                        background:#7DF4FF;
+                        border-radius:999px;
+                        ">
+
+                        </div>
+
+                        <span
+                            style="
+                            color:#DBFCFF;
+                            font-size:13px;
+                            font-weight:500;
+                            ">
                             {{ $project->user->name }}
                         </span>
 
                     </div>
 
-                    <div class="flex gap-4 text-[#849495] text-sm">
+                    <div
+style="
+display:flex;
+gap:16px;
+color:#849495;
+font-size:14px;
+">
 
                         <span><i class="fa-regular fa-eye"></i> 1.2k</span>
 
@@ -148,21 +280,95 @@
         <div class="text-center mt-12">
 
             <button
-                class="border border-[#00F0FF]
-                text-[#7DF4FF]
-                px-10
-                py-3
-                hover:bg-[#00F0FF]
-                hover:text-[#0D1515]
-                transition">
-
+            class="load-btn"
+            style="
+            padding:14px 40px;
+            background:transparent;
+            border:1px solid #00F0FF;
+            color:#7DF4FF;
+            font-weight:700;
+            border-radius:8px;
+            cursor:pointer;
+            transition:.3s;
+            ">
                 MUAT LEBIH BANYAK
-
             </button>
 
         </div>
-
+        </div>
         
 </section>
+
+<style>
+
+    .load-btn:hover{
+
+    background:#00F0FF;
+
+    color:#081011;
+
+    box-shadow:0 0 25px rgba(0,240,255,.35);
+
+    transform:translateY(-2px);
+
+    }
+
+    main{
+        background:#0B1112;
+    }
+    </style>    
+
+        <style>
+
+
+        .project-card{
+
+        transition:.35s ease;
+
+        }
+
+        .project-card:hover{
+
+        transform:translateY(-8px);
+
+        border-color:#00F0FF;
+
+        box-shadow:
+        0 12px 40px rgba(0,240,255,.15);
+
+        }
+
+        .project-card img{
+
+        transition:.35s;
+
+        }
+
+        .project-card:hover img{
+
+        transform:scale(1.05);
+
+        }
+
+        button{
+
+transition:.3s;
+
+}
+
+        button:hover{
+
+        background:#00F0FF;
+
+        color:#071112;
+
+        transform:translateY(-3px);
+
+        box-shadow:
+
+        0 0 22px rgba(0,240,255,.35);
+
+        }
+        </style>
 
 @endsection

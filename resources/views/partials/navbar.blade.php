@@ -17,6 +17,7 @@
                     font-size:32px;
                     font-weight:700;
                     text-decoration:none;
+                    transition:.3s;
                ">
                 Portova
             </a>
@@ -43,18 +44,12 @@
             </a>
 
             <a href="#"
-               style="
-                    color:#B9CACB;
-                    text-decoration:none;
-               ">
+            class="nav-link">
                 Tentang
             </a>
 
             <a href="#"
-               style="
-                    color:#B9CACB;
-                    text-decoration:none;
-               ">
+            class="nav-link">
                 Kontak
             </a>
 
@@ -68,16 +63,18 @@
         ">
 
             <a href="{{ route('login') }}"
-               style="
-                    background:#006970;
-                    color:#DBFCFF;
-                    text-decoration:none;
-                    padding:8px 20px;
-                    border-radius:6px;
-                    border:1px solid rgba(125,244,255,.3);
-                    font-size:14px;
-                    font-weight:600;
-               ">
+            class="login-btn"
+            style="
+            background:#006970;
+            color:#DBFCFF;
+            text-decoration:none;
+            padding:10px 22px;
+            border-radius:8px;
+            border:1px solid rgba(125,244,255,.3);
+            font-size:14px;
+            font-weight:700;
+            transition:.3s;
+            ">
 
                 MASUK
 
@@ -88,3 +85,34 @@
     </div>
 
 </nav>
+
+<style>
+.login-btn:hover{
+
+background:#00F0FF !important;
+
+color:#0D1515 !important;
+
+box-shadow:0 0 18px rgba(0,240,255,.4);
+
+transform:translateY(-2px);
+
+}
+</style>
+
+<style>
+
+.nav-link{
+    color:#B9CACB;
+    text-decoration:none;
+    transition:.3s;
+    padding-bottom:5px;
+    border-bottom:2px solid transparent;
+}
+
+.nav-link:hover{
+    color:#7DF4FF;
+    border-bottom:2px solid #7DF4FF;
+}
+
+</style>
