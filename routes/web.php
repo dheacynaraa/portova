@@ -11,7 +11,6 @@ use App\Http\Controllers\SaveController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 
-
 // =======================
 // Public
 // =======================
@@ -22,9 +21,6 @@ Route::view('/', 'landing')->name('landing');
 // Halaman Eksplorasi
 Route::get('/explore', [ProjectController::class, 'index'])->name('project.index');
 
-// Detail Project
-Route::get('/project/{project}', [ProjectController::class, 'show'])->name('project.show');
-
 
 // =======================
 // Authentication
@@ -32,14 +28,11 @@ Route::get('/project/{project}', [ProjectController::class, 'show'])->name('proj
 
 Route::middleware('guest')->group(function () {
 
-    // Login
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'login']);
 
-    // Register
     Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
     Route::post('/register', [RegisterController::class, 'register']);
-
 });
 
 // Logout
@@ -48,7 +41,10 @@ Route::post('/logout', [LoginController::class, 'logout'])
     ->name('logout');
 
 
+// =======================
 // Dashboard
+// =======================
+
 Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard', function () {
@@ -69,9 +65,11 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
     // Project
+    Route::get('/project/create', [ProjectController::class, 'create'])->name('project.create');
     Route::post('/project', [ProjectController::class, 'store'])->name('project.store');
     Route::put('/project/{project}', [ProjectController::class, 'update'])->name('project.update');
     Route::delete('/project/{project}', [ProjectController::class, 'destroy'])->name('project.destroy');
+    Route::get('/save', [SaveController::class, 'index'])->name('save.index');
 
     // Like
     Route::post('/like/{project}', [LikeController::class, 'store'])->name('like.store');
@@ -85,16 +83,23 @@ Route::middleware('auth')->group(function () {
 
 
 // =======================
+// Detail Project
+// =======================
+
+Route::get('/project/{project}', [ProjectController::class, 'show'])
+    ->whereNumber('project')
+    ->name('project.show');
+
+
+// =======================
 // Admin
 // =======================
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
-    // Dashboard
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])
         ->name('admin.dashboard');
 
-    // Review Project
     Route::get('/project', [AdminProjectController::class, 'index'])
         ->name('admin.project.index');
 

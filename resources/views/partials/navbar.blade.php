@@ -1,118 +1,166 @@
-<nav style="background:#0B1112;height:58px;border-bottom:1px solid #233637;">
+<nav
+style="
+background:#0B1112;
+border-bottom:1px solid #233637;
+height:72px;
+">
 
-    <div style="max-width:1280px;
-                height:58px;
-                margin:auto;
-                padding:0 16px;
-                display:flex;
-                align-items:center;
+<div
+style="
+max-width:1280px;
+height:72px;
+margin:auto;
+padding:0 24px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+">
+
+    {{-- Logo --}}
+    <a
+    href="{{ route('project.index') }}"
+    style="
+    color:#DBFCFF;
+    text-decoration:none;
+    font-size:32px;
+    font-weight:700;
+    ">
+        Portova
+    </a>
+
+
+    {{-- Menu --}}
+    <div
+    style="
+    display:flex;
+    gap:40px;
+    align-items:center;
     ">
 
-        {{-- Logo --}}
-        <div style="width:25%;">
+        <a
+        href="{{ route('project.index') }}"
+        class="nav-link {{ request()->routeIs('project.*') ? 'active-nav' : '' }}">
+            Eksplorasi
+        </a>
 
-            <a href="{{ route('project.index') }}"
-               style="
-                    color:#DBFCFF;
-                    font-size:32px;
-                    font-weight:700;
-                    text-decoration:none;
-                    transition:.3s;
-               ">
-                Portova
-            </a>
+        <a href="#" class="nav-link">
+            Tentang
+        </a>
 
-        </div>
-
-        {{-- Menu --}}
-        <div style="
-            width:50%;
-            display:flex;
-            justify-content:center;
-            gap:36px;
-            font-size:15px;
-        ">
-
-            <a href="{{ route('project.index') }}"
-               style="
-                    color:#7DF4FF;
-                    text-decoration:none;
-                    border-bottom:2px solid #7DF4FF;
-                    padding-bottom:5px;
-               ">
-                Eksplorasi
-            </a>
-
-            <a href="#"
-            class="nav-link">
-                Tentang
-            </a>
-
-            <a href="#"
-            class="nav-link">
-                Kontak
-            </a>
-
-        </div>
-
-        {{-- Login --}}
-        <div style="
-            width:25%;
-            display:flex;
-            justify-content:flex-end;
-        ">
-
-            <a href="{{ route('login') }}"
-            class="login-btn"
-            style="
-            background:#006970;
-            color:#DBFCFF;
-            text-decoration:none;
-            padding:10px 22px;
-            border-radius:8px;
-            border:1px solid rgba(125,244,255,.3);
-            font-size:14px;
-            font-weight:700;
-            transition:.3s;
-            ">
-
-                MASUK
-
-            </a>
-
-        </div>
+        <a href="#" class="nav-link">
+            Kontak
+        </a>
 
     </div>
+
+
+    {{-- Bagian Kanan --}}
+    <div
+    style="
+    display:flex;
+    align-items:center;
+    gap:18px;
+    ">
+
+        @guest
+
+            <a
+            href="{{ route('login') }}"
+            class="login-btn">
+                MASUK
+            </a>
+
+        @endguest
+
+
+        @auth
+
+            {{-- Bookmark hanya muncul di halaman Profile --}}
+            @if(request()->routeIs('profile.*'))
+
+                <a
+                href="{{ route('save.index') }}"
+                style="
+                color:#DBFCFF;
+                font-size:22px;
+                ">
+                    <i class="fa-regular fa-bookmark"></i>
+                </a>
+
+            @endif
+
+
+            {{-- Avatar --}}
+            <a href="{{ route('profile.index') }}">
+
+                <div
+                    style="
+                    width:42px;
+                    height:42px;
+                    border-radius:50%;
+                    background:#00B8C8;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    color:white;
+                    font-weight:bold;
+                    font-size:18px;
+                    ">
+                        {{ strtoupper(substr(Auth::user()->name,0,1)) }}
+                    </div>
+
+            </a>
+
+        @endauth
+
+    </div>
+
+</div>
 
 </nav>
 
 <style>
-.login-btn:hover{
-
-background:#00F0FF !important;
-
-color:#0D1515 !important;
-
-box-shadow:0 0 18px rgba(0,240,255,.4);
-
-transform:translateY(-2px);
-
-}
-</style>
-
-<style>
 
 .nav-link{
-    color:#B9CACB;
-    text-decoration:none;
-    transition:.3s;
-    padding-bottom:5px;
-    border-bottom:2px solid transparent;
+
+color:#B9CACB;
+text-decoration:none;
+font-weight:500;
+transition:.3s;
+
 }
 
 .nav-link:hover{
-    color:#7DF4FF;
-    border-bottom:2px solid #7DF4FF;
+
+color:#7DF4FF;
+
+}
+
+.active-nav{
+
+color:#7DF4FF;
+border-bottom:2px solid #7DF4FF;
+padding-bottom:5px;
+
+}
+
+.login-btn{
+
+background:#006970;
+color:white;
+padding:10px 24px;
+border-radius:10px;
+text-decoration:none;
+font-weight:700;
+transition:.3s;
+
+}
+
+.login-btn:hover{
+
+background:#00F0FF;
+color:#081314;
+
 }
 
 </style>

@@ -2,24 +2,52 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
-    protected $table = 'projects';
-    protected $fillable = ['user_id', 'title', 'desc', 'tech_stacks',
-                            'link_repo', 'link_demo',
-                            'project_image', 'status'];
+    use HasFactory;
 
-    public function user() {
-        return $this->belongsTo(User::class, 'user_id');
-    }    
+    protected $fillable = [
+        'user_id',
+        'title',
+        'description',
+        'tech_stacks',
+        'link_repo',
+        'link_demo',
+        'project_image',
+        'status', // pending, approved, rejected
+    ];
 
-    public function likes() {
-        return $this->hasMany(Like::class, 'project_id');
+    protected $casts = [
+        'tech_stacks' => 'array', // Jika tech_stacks disimpan sebagai JSON
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
-    public function saves() {
-        return $this->hasMany(Save::class, 'project_id');
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    public function saves()
+    {
+        return $this->hasMany(Save::class);
+    }
+
+    // Helper untuk cek apakah user sudah like
+    public function isLikedBy($userId)
+    {
+        return $this->likes()->where('user_id', $userId)->exists();
+    }
+
+    // Helper untuk cek apakah user sudah save
+    public function isSavedBy($userId)
+    {
+        return $this->saves()->where('user_id', $userId)->exists();
     }
 }

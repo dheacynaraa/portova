@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\Like;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -10,14 +11,26 @@ use Illuminate\Support\Facades\File;
 class ProfileController extends Controller {
 
     // Menampilkan profil
-    public function index() {
+    public function index()
+    {
         $user = Auth::user();
 
-        $projects = Project::where('user_id', $user_id)
+        $projects = Project::where('user_id', $user->id)
             ->latest()
             ->get();
 
-        return view('profile.index', compact('user'));
+        $totalProjects = $projects->count();
+
+        $totalLikes = Like::whereIn(
+            'project_id',
+            $projects->pluck('id')
+        )->count(); 
+
+        return view('profile.index', compact(
+            'user',
+            'projects',
+            'totalProjects',
+            'totalLikes'));
     }
 
     // Update profil

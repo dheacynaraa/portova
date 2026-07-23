@@ -8,6 +8,13 @@ use Illuminate\Support\Facades\Auth;
 
 class SaveController extends Controller
 {
+
+    public function index()
+    {
+        return view('save.index');
+    }
+
+
     // Menambahkan project ke simpan
     public function store($project_id) {
         Save::firstOrCreate([
