@@ -47,7 +47,7 @@ justify-content:space-between;
             Tentang
         </a>
 
-        <a href="#" class="nav-link">
+        <a href="#footer" class="nav-link">
             Kontak
         </a>
 

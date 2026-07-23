@@ -23,6 +23,9 @@ return new class extends Migration
             $table->string('link_github')->nullable();
             $table->text('bio')->nullable();
             $table->timestamps();
+
+            $table->boolean('is_admin')->default(false);
+            $table->enum('role', ['admin', 'mahasiswa'])->default('mahasiswa');
         });
 
         // Template Laravel
@@ -51,4 +54,7 @@ return new class extends Migration
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
     }
+
+
+
 };

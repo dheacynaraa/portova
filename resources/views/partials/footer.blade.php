@@ -1,4 +1,4 @@
-<footer style="background:#101C1D;border-top:1px solid #233637;margin-top:96px;">
+<footer id="footer" style="background:#101C1D;border-top:1px solid #233637;margin-top:96px;">
 
     <div style="max-width:1280px;margin:auto;padding:56px 16px;">
 

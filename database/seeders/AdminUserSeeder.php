@@ -10,17 +10,29 @@ class AdminUserSeeder extends Seeder
 {
     public function run(): void
     {
-        // Cek apakah admin sudah ada, jika belum buat
-        if (!User::where('email', 'admin@portova.com')->exists()) {
-            User::create([
+        $email = 'admin@portova.com';
+        $password = 'password123';
+
+        // Cek apakah admin sudah ada
+        $admin = User::where('email', $email)->first();
+
+        if ($admin) {
+            // Jika sudah ada, update password dan role (jika perlu)
+            $admin->update([
+                'password' => Hash::make($password),
+                'role' => 'admin',
                 'name' => 'Admin Portova',
-                'email' => 'admin@portova.com',
-                'password' => Hash::make('password123'),
-                'is_admin' => true,
+                'university' => 'Universitas Admin',
             ]);
         } else {
-            // Jika sudah ada, update menjadi admin
-            User::where('email', 'admin@portova.com')->update(['is_admin' => true]);
+            // Buat admin baru
+            User::create([
+                'name' => 'Admin Portova',
+                'email' => $email,
+                'password' => Hash::make($password),
+                'role' => 'admin',
+                'university' => 'Universitas Admin',
+            ]);
         }
     }
 }
