@@ -7,47 +7,95 @@ use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
-    use HasFactory;
+    // ===== STATUS CONSTANTS (sesuai database) =====
+    const STATUS_PENDING = 'menunggu';
+    const STATUS_APPROVED = 'disetujui';
+    const STATUS_REJECTED = 'ditolak';
+
+    protected $table = 'projects';
 
     protected $fillable = [
         'user_id',
         'title',
-        'description',
+        'desc',
         'tech_stacks',
         'link_repo',
         'link_demo',
         'project_image',
-        'status', // pending, approved, rejected
+        'status'
     ];
 
     protected $casts = [
-        'tech_stacks' => 'array', // Jika tech_stacks disimpan sebagai JSON
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
+    // ===== RELATIONS =====
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function likes()
     {
-        return $this->hasMany(Like::class);
+        return $this->hasMany(Like::class, 'project_id');
     }
 
     public function saves()
     {
-        return $this->hasMany(Save::class);
+        return $this->hasMany(Save::class, 'project_id');
     }
 
-    // Helper untuk cek apakah user sudah like
-    public function isLikedBy($userId)
+    // ===== SCOPES =====
+    public function scopePending($query)
     {
-        return $this->likes()->where('user_id', $userId)->exists();
+        return $query->where('status', self::STATUS_PENDING);
     }
 
-    // Helper untuk cek apakah user sudah save
-    public function isSavedBy($userId)
+    public function scopeApproved($query)
     {
-        return $this->saves()->where('user_id', $userId)->exists();
+        return $query->where('status', self::STATUS_APPROVED);
+    }
+
+    public function scopeRejected($query)
+    {
+        return $query->where('status', self::STATUS_REJECTED);
+    }
+
+    // ===== STATUS CHECK HELPERS =====
+    public function isPending()
+    {
+        return $this->status === self::STATUS_PENDING;
+    }
+
+    public function isApproved()
+    {
+        return $this->status === self::STATUS_APPROVED;
+    }
+
+    public function isRejected()
+    {
+        return $this->status === self::STATUS_REJECTED;
+    }
+
+    // ===== ACCESSORS =====
+    public function getStatusLabelAttribute()
+    {
+        return match ($this->status) {
+            self::STATUS_PENDING => 'Menunggu',
+            self::STATUS_APPROVED => 'Disetujui',
+            self::STATUS_REJECTED => 'Ditolak',
+            default => 'Tidak diketahui',
+        };
+    }
+
+    public function getStatusBadgeColorAttribute()
+    {
+        return match ($this->status) {
+            self::STATUS_PENDING => 'bg-amber-500/20 text-amber-400',
+            self::STATUS_APPROVED => 'bg-emerald-500/20 text-emerald-400',
+            self::STATUS_REJECTED => 'bg-red-500/20 text-red-400',
+            default => 'bg-slate-500/20 text-slate-400',
+        };
     }
 }

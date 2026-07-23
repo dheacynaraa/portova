@@ -76,14 +76,14 @@ line-height:28px;
                 {{-- Button --}}
                 <button
                     style="
-width:82px;
-background:#00F0FF;
-border:none;
-color:#071112;
-font-weight:700;
-cursor:pointer;
-transition:.3s;
-">
+                    width:82px;
+                    background:#00F0FF;
+                    border:none;
+                    color:#071112;
+                    font-weight:700;
+                    cursor:pointer;
+                    transition:.3s;
+                    ">
                     CARI
 
                 </button>

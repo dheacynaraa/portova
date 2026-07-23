@@ -8,11 +8,22 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
+    /**
+     * Tampilkan form login.
+     *
+     * @return \Illuminate\View\View
+     */
     public function showLoginForm()
     {
         return view('auth.login');
     }
 
+    /**
+     * Proses login user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -22,7 +33,15 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/dashboard'); // ganti dengan halaman setelah login
+
+            // Redirect berdasarkan role
+            $user = Auth::user();
+            if ($user->role === 'admin') {
+                return redirect()->intended('/admin/dashboard');
+            }
+
+            // Mahasiswa atau role lain
+            return redirect()->intended('/explore');
         }
 
         return back()->withErrors([
@@ -30,6 +49,12 @@ class LoginController extends Controller
         ])->onlyInput('email');
     }
 
+    /**
+     * Proses logout user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function logout(Request $request)
     {
         Auth::logout();

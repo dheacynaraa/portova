@@ -34,4 +34,27 @@ class AdminProjectController extends Controller {
 
         return back()->with('success', 'Project berhasil ditolak.');
     }
+
+    public function antrean(Request $request)
+{
+    $query = Project::with('user');
+
+    if ($request->filled('status')) {
+        $query->where('status', $request->status);
+    }
+
+    if ($request->filled('search')) {
+        $search = $request->search;
+        $query->where(function ($q) use ($search) {
+            $q->where('title', 'LIKE', "%{$search}%")
+              ->orWhereHas('user', fn($q) => $q->where('name', 'LIKE', "%{$search}%"));
+        });
+    }
+
+    $projects = $query->orderBy('created_at', 'desc')->paginate(5);
+    $projects->appends($request->only(['search', 'status']));
+
+    return view('admin.antrean', compact('projects'));
+}
+
 }

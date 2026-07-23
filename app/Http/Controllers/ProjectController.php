@@ -10,20 +10,15 @@ use Illuminate\Support\Str;
 
 class ProjectController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth')->except(['index', 'show']);
-    }
-
     // 📌 LIST PROJECTS (Explore)
     public function index()
     {
         $projects = Project::with('user')
-            ->where('status', 'approved') // Hanya tampilkan yang approved
+            ->where('status', 'disetujui') // status sesuai database (disetujui)
             ->latest()
             ->paginate(9);
             
-        return view('explore', compact('projects'));
+        return view('project.index', compact('projects'));
     }
 
     // 📌 SHOW DETAIL PROJECT
@@ -43,7 +38,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'desc' => 'nullable|string', // field di database = desc
             'tech_stacks' => 'nullable|string',
             'link_repo' => 'nullable|url',
             'link_demo' => 'nullable|url',
@@ -52,9 +47,9 @@ class ProjectController extends Controller
 
         $data = $request->except('project_image');
         $data['user_id'] = Auth::id();
-        $data['status'] = 'pending'; // Default pending
+        $data['status'] = 'menunggu'; // status default di database = menunggu
 
-        // Konversi tech_stacks dari string ke array
+        // Konversi tech_stacks dari string ke array (JSON)
         if ($request->filled('tech_stacks')) {
             $techArray = array_map('trim', explode(',', $request->tech_stacks));
             $data['tech_stacks'] = json_encode($techArray);
@@ -79,7 +74,7 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         // Cek kepemilikan: hanya user yang punya atau admin
-        if (Auth::id() !== $project->user_id && !Auth::user()->isAdmin()) {
+        if (Auth::id() !== $project->user_id && Auth::user()->role !== 'admin') {
             abort(403, 'Unauthorized action.');
         }
 
@@ -93,13 +88,13 @@ class ProjectController extends Controller
     public function update(Request $request, Project $project)
     {
         // Cek kepemilikan
-        if (Auth::id() !== $project->user_id && !Auth::user()->isAdmin()) {
+        if (Auth::id() !== $project->user_id && Auth::user()->role !== 'admin') {
             abort(403, 'Unauthorized action.');
         }
 
         $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'desc' => 'nullable|string',
             'tech_stacks' => 'nullable|string',
             'link_repo' => 'nullable|url',
             'link_demo' => 'nullable|url',
@@ -140,7 +135,7 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
         // Cek kepemilikan
-        if (Auth::id() !== $project->user_id && !Auth::user()->isAdmin()) {
+        if (Auth::id() !== $project->user_id && Auth::user()->role !== 'admin') {
             abort(403, 'Unauthorized action.');
         }
 
@@ -151,18 +146,15 @@ class ProjectController extends Controller
 
         $project->delete();
 
+        // Redirect ke halaman profile (user punya)
         return redirect()
-            ->route('profile.show', Auth::id())
+            ->route('profile.index')
             ->with('success', 'Project berhasil dihapus!');
     }
 
     // 📌 GET PROJECTS BY USER (Untuk Profile)
     public function userProjects($userId)
     {
-        $projects = Project::where('user_id', $userId)
-            ->latest()
-            ->get();
-        
-        return $projects;
+        return Project::where('user_id', $userId)->latest()->get();
     }
 }
