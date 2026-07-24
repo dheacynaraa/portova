@@ -38,19 +38,26 @@
         =========================== */
 
         .landing-page{
-            width:100%;
-            height:100vh;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            position:relative;
-            overflow:hidden;
+            position: fixed;
+            inset: 0;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            width: 100%;
+            height: 100vh;
         }
 
         .hero-content{
-            text-align:center;
-            z-index:5;
-            animation:fadeUp 1.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            text-align: center;
+            z-index: 5;
+            transform: translateY(20px);
         }
 
         /* ===========================

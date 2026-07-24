@@ -14,6 +14,10 @@ use App\Http\Controllers\Auth\RegisterController;
 // Public Routes
 // =======================
 
+Route::get('/about', function () {
+    return view('about');
+});
+
 // Landing Page
 Route::view('/', 'landing')->name('landing');
 
