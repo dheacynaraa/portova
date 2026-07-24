@@ -52,9 +52,7 @@ justify-content:space-between;
             Tentang
         </a>
 
-        <a
-        href="#"
-        class="nav-link">
+        <a href="#" class="nav-link">
             Kontak
         </a>
 

@@ -10,24 +10,16 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        // Admin
-        User::create([
-            'name' => 'Admin Portova',
-            'email' => 'admin@portova.com',
-            'password' => Hash::make('password123'),
-            'role' => 'admin',
-            'university' => 'Universitas Admin',
-        ]);
-
-        // Mahasiswa contoh
+        // Buat mahasiswa contoh
         User::create([
             'name' => 'Mahasiswa Test',
             'email' => 'mahasiswa@test.com',
-            'password' => Hash::make('12345678'),
+            'password' => Hash::make('password123'),
             'role' => 'mahasiswa',
             'university' => 'Universitas Test',
         ]);
 
-        // Tambahkan user random jika diperlukan
+        // Tambahkan user random jika diperlukan (misal pakai Faker)
+        // ...
     }
 }
