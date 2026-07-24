@@ -21,7 +21,7 @@ justify-content:space-between;
 
     {{-- Logo --}}
     <a
-    href="{{ auth()->check() ? route('project.index') : route('landing') }}"
+    href="{{ auth()->check() ? route('explore') : route('landing') }}"
     style="
     color:#F3FEFF;
     text-decoration:none;
@@ -41,18 +41,16 @@ justify-content:space-between;
     ">
 
         <a
-        href="{{ route('project.index') }}"
+        href="{{ route('explore') }}"
         class="nav-link {{ request()->routeIs('project.*') ? 'active-nav' : '' }}">
             Eksplorasi
         </a>
 
-        <a
-        href="#"
-        class="nav-link">
+        <a href="{{ route('about') }}" class="nav-link">
             Tentang
         </a>
 
-        <a href="#" class="nav-link">
+        <a href="{{ route('contact') }}" class="nav-link">
             Kontak
         </a>
 

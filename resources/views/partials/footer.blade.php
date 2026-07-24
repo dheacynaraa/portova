@@ -34,24 +34,24 @@
             <div>
 
             <div style="margin-bottom:14px;">
-                <a href="{{ route('project.index') }}"
+                <a href="{{ route('explore') }}"
                 class="footer-link">
                     Eksplorasi
                 </a>
             </div>
 
             <div style="margin-bottom:14px;">
-                <a href="#"
-                class="footer-link">
-                    Tentang
-                </a>
+            <a href="{{ route('about') }}" class="nav-link">
+                Tentang
+            </a>
+
+        
             </div>
 
             <div>
-                <a href="#"
-                class="footer-link">
-                    Kontak
-                </a>
+            <a href="{{ route('contact') }}" class="nav-link">
+                Kontak
+            </a>
             </div>
 
         </div>
