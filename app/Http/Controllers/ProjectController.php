@@ -11,13 +11,21 @@ use Illuminate\Support\Str;
 class ProjectController extends Controller
 {
     // 📌 LIST PROJECTS (Explore)
-    public function index()
+    public function index(Request $request)
     {
         $projects = Project::with('user')
-            ->where('status', 'disetujui') // status sesuai database (disetujui)
+            ->where('status', 'disetujui');
+
+        // Search berdasarkan judul project
+        if ($request->filled('search')) {
+            $projects->where('title', 'like', '%' . $request->search . '%');
+        }
+
+        $projects = $projects
             ->latest()
-            ->paginate(9);
-            
+            ->paginate(9)
+            ->withQueryString();
+
         return view('project.index', compact('projects'));
     }
 
@@ -49,11 +57,8 @@ class ProjectController extends Controller
         $data['user_id'] = Auth::id();
         $data['status'] = 'menunggu'; // status default di database = menunggu
 
-        // Konversi tech_stacks dari string ke array (JSON)
-        if ($request->filled('tech_stacks')) {
-            $techArray = array_map('trim', explode(',', $request->tech_stacks));
-            $data['tech_stacks'] = json_encode($techArray);
-        }
+        // Simpan tech stack apa adanya
+        $data['tech_stacks'] = $request->tech_stacks;
 
         // Upload image
         if ($request->hasFile('project_image')) {
@@ -66,8 +71,8 @@ class ProjectController extends Controller
         $project = Project::create($data);
 
         return redirect()
-            ->route('project.show', $project)
-            ->with('success', 'Project berhasil diupload! Menunggu approval admin.');
+        ->route('profile.index')
+        ->with('success', 'Project berhasil diupload dan sedang menunggu persetujuan admin.');
     }
 
     // 📌 SHOW EDIT FORM
@@ -78,10 +83,7 @@ class ProjectController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        // Decode tech_stacks dari JSON ke string
-        $techStacks = $project->tech_stacks ? implode(', ', json_decode($project->tech_stacks, true)) : '';
-
-        return view('project.edit', compact('project', 'techStacks'));
+        return view('project.edit', compact('project'));
     }
 
     // 📌 UPDATE PROJECT

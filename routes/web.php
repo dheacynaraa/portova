@@ -57,19 +57,30 @@ Route::get('/dashboard', function () {
 // =======================
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
-    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
-    Route::post('/project', [ProjectController::class, 'store'])->name('project.store');
-    Route::put('/project/{project}', [ProjectController::class, 'update'])->name('project.update');
-    Route::delete('/project/{project}', [ProjectController::class, 'destroy'])->name('project.destroy');
-    Route::get('/save', [SaveController::class, 'index'])->name('save.index');
+    Route::get('/profile',[ProfileController::class,'index'])->name('profile.index');
+    Route::put('/profile',[ProfileController::class,'update'])->name('profile.update');
 
-    Route::post('/like/{project}', [LikeController::class, 'store'])->name('like.store');
-    Route::delete('/like/{project}', [LikeController::class, 'destroy'])->name('like.destroy');
+    // CRUD PROJECT
+    Route::get('/project/create',[ProjectController::class,'create'])->name('project.create');
 
-    Route::post('/project/{project}/save', [SaveController::class, 'store'])->name('save.store');
-    Route::delete('/save/{save}', [SaveController::class, 'destroy'])->name('save.destroy');
+    Route::post('/project',[ProjectController::class,'store'])->name('project.store');
+
+    Route::get('/project/{project}/edit',[ProjectController::class,'edit'])->name('project.edit');
+
+    Route::put('/project/{project}',[ProjectController::class,'update'])->name('project.update');
+
+    Route::delete('/project/{project}',[ProjectController::class,'destroy'])->name('project.destroy');
+
+    // Bookmark
+    Route::get('/save',[SaveController::class,'index'])->name('save.index');
+    Route::post('/project/{project}/save',[SaveController::class,'store'])->name('save.store');
+    Route::delete('/save/{save}',[SaveController::class,'destroy'])->name('save.destroy');
+
+    // Like
+    Route::post('/like/{project}',[LikeController::class,'store'])->name('like.store');
+    Route::delete('/like/{project}',[LikeController::class,'destroy'])->name('like.destroy');
+
 });
 
 // =======================

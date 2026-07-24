@@ -37,70 +37,90 @@ line-height:28px;
 
         </div>
 
-        {{-- Search --}}
-        <div class="flex justify-center mt-10">
+        
+{{-- Search --}}
+<div
+style="
+display:flex;
+justify-content:center;
+margin:48px 0 60px;
+">
 
-            <div
-            style="
-            width:760px;
-            height:56px;
-            display:flex;
-            margin:auto;
-            ">
+<form
+action="{{ route('project.index') }}"
+method="GET"
+style="
+width:650px;
+display:flex;
+margin:auto;">
 
-                {{-- Search Box --}}
-                <div class="flex-1 flex items-center bg-[#192122] border border-[#3B494B] rounded-l-md px-4">
+    <div
+    style="
+    flex:1;
+    display:flex;
+    align-items:center;
+    background:#1A2224;
+    border:1px solid #364345;
+    border-right:none;
+    border-radius:14px 0 0 14px;
+    padding:0 22px;
+    height:66px;
+    ">
 
-                    <i class="fa-solid fa-magnifying-glass text-[#849495] mr-3"></i>
+        <i class="fa-solid fa-magnifying-glass"
+        style="
+        color:#8C9DA0;
+        font-size:20px;
+        margin-right:16px;
+        "></i>
 
-                    <input
-                        type="text"
-                        placeholder="Cari proyek atau kreator..."
-                        style="
-                        width:100%;
-                        background:transparent;
-                        border:none;
-                        outline:none;
-                        color:#DBFCFF;
-                        font-size:15px;
-                        input::placeholder{
-                        color:#849495;
-                        opacity:1;}
-                        ">
+        <input
+        type="text"
+        name="search"
+        value="{{ request('search') }}"
+        placeholder="Cari project..."
+        style="
+        width:100%;
+        border:none;
+        outline:none;
+        background:transparent;
+        color:white;
+        font-size:18px;
+        ">
 
-                        
+    </div>
 
-                        
-                </div>
+    <button
+    type="submit"
+    style="
+    width:160px;
+    height:66px;
+    border:none;
+    background:#22D3EE;
+    color:#081011;
+    font-weight:700;
+    font-size:18px;
+    border-radius:0 14px 14px 0;
+    ">
+        CARI
+    </button>
 
-                {{-- Button --}}
-                <button
-                    style="
-                    width:82px;
-                    background:#00F0FF;
-                    border:none;
-                    color:#071112;
-                    font-weight:700;
-                    cursor:pointer;
-                    transition:.3s;
-                    ">
-                    CARI
+</form>
 
-                </button>
-
-            </div>
+</div>
 
         </div>
 
         {{-- Project Grid --}}
         <div
         style="
+        max-width:1280px;
+        margin:0 auto;
+        padding:0 24px;
+
         display:grid;
-        grid-template-columns:repeat(3,372px);
-        justify-content:space-between;
-        column-gap:32px;
-        row-gap:36px;
-        margin-top:60px;
+        grid-template-columns:repeat(3,1fr);
+        gap:32px;
         ">
         @foreach($projects as $project)
 
@@ -153,9 +173,9 @@ line-height:28px;
             overflow:hidden;
             transition:.35s;
             cursor:pointer;
-            max-width:372px;
             width:100%;
-            margin:auto;
+            max-width:380px;
+            justify-self:center;
             ">
 
 
@@ -276,25 +296,28 @@ font-size:14px;
 
         </div>
 
-        {{-- Tombol --}}
-        <div class="text-center mt-12">
+        {{-- Tombol Muat --}}
+@if($projects->hasMorePages())
 
-            <button
-            class="load-btn"
-            style="
-            padding:14px 40px;
-            background:transparent;
+<div class="flex justify-center mt-16">
+    <a href="{{ $projects->nextPageUrl() }}"
+       class="load-btn"
+       style="
+            display:inline-block;
+            padding:18px 55px;
             border:1px solid #00F0FF;
+            border-radius:14px;
             color:#7DF4FF;
+            text-decoration:none;
             font-weight:700;
-            border-radius:8px;
-            cursor:pointer;
+            font-size:18px;
             transition:.3s;
-            ">
-                MUAT LEBIH BANYAK
-            </button>
+       ">
+        MUAT LEBIH BANYAK
+    </a>
+</div>
 
-        </div>
+@endif
         </div>
         
 </section>

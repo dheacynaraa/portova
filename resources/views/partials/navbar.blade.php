@@ -1,8 +1,11 @@
 <nav
 style="
 background:#0B1112;
-border-bottom:1px solid #233637;
+border-bottom:1px solid #1E2A2E;
 height:72px;
+position:sticky;
+top:0;
+z-index:999;
 ">
 
 <div
@@ -18,23 +21,23 @@ justify-content:space-between;
 
     {{-- Logo --}}
     <a
-    href="{{ route('project.index') }}"
+    href="{{ auth()->check() ? route('project.index') : route('landing') }}"
     style="
-    color:#DBFCFF;
+    color:#F3FEFF;
     text-decoration:none;
-    font-size:32px;
+    font-size:30px;
     font-weight:700;
     ">
         Portova
     </a>
 
+    {{-- MENU --}}
+    @if(!auth()->check() || auth()->user()->role != 'admin')
 
-    {{-- Menu --}}
     <div
     style="
     display:flex;
-    gap:40px;
-    align-items:center;
+    gap:42px;
     ">
 
         <a
@@ -43,103 +46,92 @@ justify-content:space-between;
             Eksplorasi
         </a>
 
-        <a href="#" class="nav-link">
+        <a
+        href="#"
+        class="nav-link">
             Tentang
         </a>
 
-        <a href="#" class="nav-link">
+        <a
+        href="#"
+        class="nav-link">
             Kontak
         </a>
 
     </div>
 
-        {{-- Right Side: Auth Links --}}
-        <div style="
-            width:25%;
-            display:flex;
-            justify-content:flex-end;
-            align-items:center;
-            gap:16px;
-        ">
+    @else
 
-            @guest
-                {{-- Belum login --}}
-                <a href="{{ route('login') }}"
-                class="login-btn"
-                style="
-                    background:#006970;
-                    color:#DBFCFF;
-                    text-decoration:none;
-                    padding:10px 22px;
-                    border-radius:8px;
-                    border:1px solid rgba(125,244,255,.3);
-                    font-size:14px;
-                    font-weight:700;
-                    transition:.3s;
-                ">
-                    MASUK
-                </a>
+    <div></div>
 
-                <a href="{{ route('register') }}"
-                class="login-btn"
-                style="
-                    background:transparent;
-                    color:#B9CACB;
-                    text-decoration:none;
-                    padding:10px 22px;
-                    border-radius:8px;
-                    border:1px solid #233637;
-                    font-size:14px;
-                    font-weight:700;
-                    transition:.3s;
-                ">
-                    DAFTAR
+    @endif
+
+    {{-- RIGHT SIDE --}}
+    <div
+    style="
+    display:flex;
+    align-items:center;
+    gap:18px;
+    ">
+
+        @guest
+
+            <a
+            href="{{ route('login') }}"
+            class="login-btn">
+                MASUK
+            </a>
+
+            <a
+            href="{{ route('register') }}"
+            class="register-btn">
+                DAFTAR
+            </a>
+
+        @else
+
+            @if(auth()->user()->role=='admin')
+
+                <a
+                href="{{ route('admin.dashboard') }}"
+                class="nav-link active-nav">
+                    Dashboard
                 </a>
 
             @else
-                {{-- Sudah login --}}
 
-                @if(auth()->user()->role === 'admin')
-                    <a href="{{ route('admin.dashboard') }}"
-                    class="nav-link"
-                    style="color:#7DF4FF; border-bottom:2px solid #7DF4FF; padding-bottom:5px; text-decoration:none;">
-                        Dashboard
-                    </a>
-                @else
-                    <a href="{{ route('profile.index') }}"
-                    class="nav-link"
-                    style="color:#B9CACB; border-bottom:2px solid transparent; padding-bottom:5px; text-decoration:none;">
-                        Profil
-                    </a>
-                    <a href="#"
-                    class="nav-link"
-                    style="color:#B9CACB; border-bottom:2px solid transparent; padding-bottom:5px; text-decoration:none;">
-                        Proyek Saya
-                    </a>
-                @endif
+                {{-- Bookmark --}}
+                <a
+                href="{{ route('save.index') }}"
+                class="bookmark-btn">
 
-                {{-- Logout --}}
-                <form method="POST" action="{{ route('logout') }}" style="display:inline; margin:0;">
-                    @csrf
-                    <button type="submit"
+                    <i class="fa-regular fa-bookmark"></i>
+
+                </a>
+
+                {{-- Avatar --}}
+                <a
+                href="{{ route('profile.index') }}">
+
+                    <img
+                    src="{{ auth()->user()->image_profile
+                        ? asset('img/profile/'.auth()->user()->image_profile)
+                        : 'https://ui-avatars.com/api/?name='.urlencode(auth()->user()->name).'&background=0B1112&color=7DF4FF'
+                    }}"
                     style="
-                        background:transparent;
-                        color:#B9CACB;
-                        border:none;
-                        padding:10px 16px;
-                        border-radius:8px;
-                        font-size:14px;
-                        font-weight:700;
-                        cursor:pointer;
-                        transition:.3s;
-                    "
-                    onmouseover="this.style.color='#7DF4FF'"
-                    onmouseout="this.style.color='#B9CACB'">
-                        LOGOUT
-                    </button>
-                </form>
+                    width:40px;
+                    height:40px;
+                    border-radius:50%;
+                    object-fit:cover;
+                    border:2px solid #19E5F7;
+                    transition:.25s;
+                    ">
 
-            @endguest
+                </a>
+
+            @endif
+
+        @endguest
 
     </div>
 
@@ -147,26 +139,78 @@ justify-content:space-between;
 
 </nav>
 
-{{-- CSS untuk hover effects --}}
 <style>
-.login-btn:hover{
-    background:#00F0FF !important;
-    color:#0D1515 !important;
-    box-shadow:0 0 18px rgba(0,240,255,.4);
-    transform:translateY(-2px);
-}
+    .login-btn{
 
-.nav-link{
+    background:#00D9F5;
+    color:#081112;
+    padding:10px 22px;
+    border-radius:10px;
+    font-weight:700;
+    text-decoration:none;
+    transition:.25s;
 
-color:#B9CACB;
-text-decoration:none;
-font-weight:500;
-transition:.3s;
+    }
 
-}
+    .login-btn:hover{
 
-.nav-link:hover{
-    color:#7DF4FF;
-    border-bottom:2px solid #7DF4FF;
-}
+    background:#5CF4FF;
+
+    }
+
+    .register-btn{
+
+    padding:10px 22px;
+    border-radius:10px;
+    border:1px solid #2A3D41;
+    color:#C7D7D9;
+    text-decoration:none;
+    font-weight:700;
+    transition:.25s;
+
+    }
+
+    .register-btn:hover{
+
+    border-color:#00D9F5;
+    color:#00D9F5;
+
+    }
+
+    .nav-link{
+
+    color:#A6B8BB;
+    text-decoration:none;
+    font-size:15px;
+    transition:.25s;
+    padding-bottom:5px;
+
+    }
+
+    .nav-link:hover{
+
+    color:#00D9F5;
+
+    }
+
+    .active-nav{
+
+    color:#00D9F5;
+    border-bottom:2px solid #00D9F5;
+
+    }
+
+    .bookmark-btn{
+
+    color:#D9F7FA;
+    font-size:18px;
+    transition:.25s;
+
+    }
+
+    .bookmark-btn:hover{
+
+    color:#00D9F5;
+
+    }
 </style>

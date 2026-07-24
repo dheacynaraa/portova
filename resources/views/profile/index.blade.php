@@ -104,20 +104,13 @@ margin-bottom:32px;
 
                     </button>
 
-                    <a
-                    href="{{ route('project.create') }}"
-                    style="
-                    background:#00E4F2;
-                    color:#081112;
-                    text-decoration:none;
-                    padding:12px 22px;
-                    border-radius:10px;
-                    font-weight:bold;
-                    ">
-
+                    <button
+                    type="button"
+                    id="openUploadModal"
+                    class="btn-upload-project"
+                    >
                         + Unggah Proyek
-
-                    </a>
+                    </button>
 
                 </div>
 
@@ -284,8 +277,6 @@ margin:32px 0 48px;
 
 </div>
 
-</div>
-
 
 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;">
 
@@ -347,4 +338,81 @@ grid-column:1/4;
 
 </div>
 </section>
+
+
+{{-- Upload Project Modal --}}
+
+<div
+id="uploadModal"
+class="upload-modal-overlay"
+style="display:none;"
+>
+
+    <div class="upload-modal">
+
+        <div class="modal-header">
+
+            <div>
+
+                <h2>Tambah Proyek Baru</h2>
+
+                <p>Bagikan inovasi terbaikmu kepada dunia.</p>
+
+            </div>
+
+            <button
+            id="closeUploadModal"
+            class="close-modal">
+
+                <i class="bi bi-x-lg"></i>
+
+            </button>
+
+        </div>
+
+        <hr>
+
+        <div style="padding:40px;text-align:center;color:#9FB2B7;">
+
+            Form upload akan kita buat pada langkah berikutnya.
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const uploadModal =
+document.getElementById('uploadModal');
+
+document
+.getElementById('openUploadModal')
+.onclick=function(){
+
+    uploadModal.style.display="flex";
+
+}
+
+document
+.getElementById('closeUploadModal')
+.onclick=function(){
+
+    uploadModal.style.display="none";
+
+}
+
+window.onclick=function(e){
+
+    if(e.target==uploadModal){
+
+        uploadModal.style.display="none";
+
+    }
+
+}
+
+</script>
+
 @endsection

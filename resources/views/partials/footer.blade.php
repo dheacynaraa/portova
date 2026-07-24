@@ -11,7 +11,7 @@
                     Portova
                 </h2>
 
-                <p style="color:#B9CACB;font-size:15px;line-height:28px;max-width:300px;">
+                <p class="footer-description">
 
                     Platform digital untuk mengeksplorasi karya,
                     inovasi, dan proyek terbaik mahasiswa Indonesia.
@@ -35,21 +35,21 @@
 
             <div style="margin-bottom:14px;">
                 <a href="{{ route('project.index') }}"
-                style="color:#B9CACB;text-decoration:none;">
+                class="footer-link">
                     Eksplorasi
                 </a>
             </div>
 
             <div style="margin-bottom:14px;">
                 <a href="#"
-                style="color:#B9CACB;text-decoration:none;transition:.3s;">
+                class="footer-link">
                     Tentang
                 </a>
             </div>
 
             <div>
                 <a href="#"
-                style="color:#B9CACB;text-decoration:none;transition:.3s;">
+                class="footer-link">
                     Kontak
                 </a>
             </div>
@@ -69,7 +69,7 @@
 
                 <div class="space-y-3">
 
-                    <p style="color:#B9CACB;">
+                    <p class="footer-contact">
 
                         <i class="fa-solid fa-envelope text-[#7DF4FF] mr-2"></i>
 
@@ -77,7 +77,7 @@
 
                     </p>
 
-                    <p style="color:#B9CACB;">
+                    <p class="footer-contact">
 
                         <i class="fa-solid fa-phone text-[#7DF4FF] mr-2"></i>
 
@@ -151,3 +151,69 @@
     </div>
 
 </footer>
+
+<style>
+
+.footer-link{
+
+    color:#B9CACB;
+    text-decoration:none;
+    display:inline-block;
+    padding-bottom:4px;
+    border-bottom:2px solid transparent;
+    transition:.3s ease;
+
+}
+
+.footer-link:hover{
+
+    color:#7DF4FF;
+    border-bottom:2px solid #7DF4FF;
+
+}
+
+.footer-description{
+
+    color:#B9CACB;
+    font-size:15px;
+    line-height:28px;
+    max-width:300px;
+    transition:.3s ease;
+    cursor:default;
+
+}
+
+.footer-description:hover{
+
+    color:#DBFCFF;
+
+}
+
+.footer-contact{
+
+    color:#B9CACB;
+    transition:.3s ease;
+    cursor:pointer;
+
+}
+
+.footer-contact:hover{
+
+    color:#7DF4FF;
+    transform:translateX(4px);
+
+}
+
+.footer-contact i{
+
+    transition:.3s ease;
+
+}
+
+.footer-contact:hover i{
+
+    color:#00F0FF;
+
+}
+
+</style>
