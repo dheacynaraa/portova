@@ -570,7 +570,7 @@ section{
                 <a href="{{ route('login') }}" class="btn-primary-custom">
                     Masuk
                 </a>
-                <a href="{{ route('project.index') }}" class="btn-outline-custom">
+                <a href="{{ route('explore') }}" class="btn-outline-custom">
                     Eksplorasi
                 </a>
             </div>
@@ -710,7 +710,7 @@ section{
                     Daftar Sekarang
                 </a>
 
-                <a href="{{ route('project.index') }}" class="btn-light">
+                <a href="{{ route('explore') }}" class="btn-light">
                     Eksplorasi
                 </a>
             </div>
