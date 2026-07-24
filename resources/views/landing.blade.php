@@ -327,7 +327,7 @@
 
                 <!-- Eksplorasi -->
                 <div class="explore">
-                    <a href="{{ route('project.index') }}">
+                    <a href="{{ route('explore') }}">
                         Eksplorasi
                         <i class="bi bi-arrow-right"></i>
                     </a>
